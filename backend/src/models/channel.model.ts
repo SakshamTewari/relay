@@ -1,4 +1,4 @@
-export interface channel {
+export interface Channel {
     id: string,
     name: string,
     workspaceId: string,
