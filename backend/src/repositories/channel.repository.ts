@@ -33,5 +33,5 @@ export class ChannelRepository {
     // Delete Channel
     async deleteChannel(id: string): Promise<boolean> {
         return this.channels.delete(id);
-    }
+    };
 }
