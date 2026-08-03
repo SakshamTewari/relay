@@ -1,4 +1,4 @@
-export interface CreatechannelRequest {
+export interface CreateChannelRequest {
     name: string;
 };
 

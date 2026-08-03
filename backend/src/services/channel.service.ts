@@ -1,7 +1,7 @@
 import { ChannelRepository } from "../repositories/channel.repository";
 import { WorkspaceRepository } from "../repositories/workspace.repository";
 import { Channel } from "../models/channel.model";
-import { CreatechannelRequest, UpdateChannelRequest } from "../types/channel";
+import { CreateChannelRequest, UpdateChannelRequest } from "../types/channel";
 import { randomUUID } from "node:crypto";
 
 export class ChannelService {
@@ -12,7 +12,7 @@ export class ChannelService {
     ){}
 
     // Create Channel
-    async createChannel(workspaceId: string, request: CreatechannelRequest ): Promise<Channel> {
+    async createChannel(workspaceId: string, request: CreateChannelRequest ): Promise<Channel> {
 
         const workspace = await this.workspaceRepository.findWorkspaceById(workspaceId);
         if(!workspace) throw new Error("Workspace not found");
