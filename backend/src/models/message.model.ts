@@ -4,5 +4,5 @@ export interface Message {
     content: string;
     channelId: string;
     createdAt: Date;
-    updateAt: Date;
+    updatedAt: Date;
 }
