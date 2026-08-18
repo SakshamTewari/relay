@@ -8,8 +8,8 @@ export class WorkspaceMemberRepository {
         this.members = new Map();
     };
 
-    // Create Member
-    async createMember(member: WorkspaceMember): Promise<WorkspaceMember>{
+    // Add Member
+    async addMember(member: WorkspaceMember): Promise<WorkspaceMember>{
         this.members.set(member.id, member);
         return member;
     };
