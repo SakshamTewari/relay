@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { MessageService } from "../services/message.service";
 import { CreateMessageRequest, UpdateMessageRequest, ChannelMessageParams, MessageParams } from "../types/message";
+import { PaginationParams } from "../types/pagination";
 
 export class MessageController {
 
@@ -17,8 +18,8 @@ export class MessageController {
     };
 
     // Get all Messages by Channel ID
-    async getMessagesByChannelId(request: FastifyRequest<{Params: ChannelMessageParams}>, reply: FastifyReply){
-        const messages = await this.messageService.getMessagesByChannelId(request.params.channelId);
+    async getMessagesByChannelId(request: FastifyRequest<{Params: ChannelMessageParams, Querystring: PaginationParams}>, reply: FastifyReply){
+        const messages = await this.messageService.getMessagesByChannelId(request.params.channelId, request.query);
         return reply.code(200).send(messages);
     };
 

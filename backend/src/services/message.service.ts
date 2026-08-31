@@ -3,6 +3,7 @@ import { Message } from "../models/message.model";
 import { MessageRepository } from "../repositories/message.repository";
 import { ChannelRepository } from "../repositories/channel.repository";
 import { CreateMessageRequest, UpdateMessageRequest } from "../types/message";
+import { PaginationParams } from "../types/pagination";
 
 export class MessageService {
 
@@ -27,10 +28,10 @@ export class MessageService {
     };
 
     // Get All Messages by Channel ID
-    async getMessagesByChannelId(channelId: string): Promise<Message[]> {
+    async getMessagesByChannelId(channelId: string, pagination: PaginationParams): Promise<Message[]> {
         const channel = await this.channelRepository.findChannelById(channelId);
         if(!channel) throw new Error("Channel not found");
-        return await this.messageRepository.findMessagesByChannelId(channelId);
+        return await this.messageRepository.findMessagesByChannelId(channelId, pagination);
 
     };
 
