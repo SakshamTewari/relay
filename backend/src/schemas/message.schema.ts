@@ -27,3 +27,18 @@ export const UpdateMessageSchema = {
         additionalProperties: false,
     },
 };
+
+export const MessageQuerySchema = {
+    type: "object",
+    properties: {
+        limit: {
+            type: "integer",
+            minimum: 1,
+            maximum: 100,
+            default: 20,
+        },
+        cursor: {
+            type: "string",
+        },
+    },
+};

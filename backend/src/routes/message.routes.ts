@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { MessageController } from "../controllers/message.controller";
 import { CreateMessageRequest, UpdateMessageRequest, ChannelMessageParams, MessageParams } from "../types/message";
-import { CreateMessageSchema, UpdateMessageSchema } from "../schemas/message.schema";
+import { CreateMessageSchema, MessageQuerySchema, UpdateMessageSchema } from "../schemas/message.schema";
+import { PaginationParams } from "../types/pagination";
 
 export async function messageRoutes(app: FastifyInstance, { messageController }: { messageController: MessageController; },){
 
@@ -11,7 +12,7 @@ export async function messageRoutes(app: FastifyInstance, { messageController }:
     });
 
      // Get Messages by Channel ID
-    app.get<{Params: ChannelMessageParams}>("/channels/:channelId/messages", {onRequest: [app.authenticate]}, async (request, reply) => {
+    app.get<{Params: ChannelMessageParams, Querystring: PaginationParams }>("/channels/:channelId/messages", {onRequest: [app.authenticate], schema: {querystring: MessageQuerySchema}}, async (request, reply) => {
         return messageController.getMessagesByChannelId(request, reply);
     });
 
