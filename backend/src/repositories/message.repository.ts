@@ -1,5 +1,5 @@
 import { Message } from "../models/message.model";
-import { PaginationParams } from "../types/pagination";
+import { PaginatedResponse, PaginationParams } from "../types/pagination";
 
 export class MessageRepository {
 
@@ -21,12 +21,26 @@ export class MessageRepository {
     };
 
     // Find Message by Channel ID
-    async findMessagesByChannelId(channelId: string, pagination: PaginationParams): Promise<Message[]>{
+    async findMessagesByChannelId(channelId: string, pagination: PaginationParams): Promise<PaginatedResponse<Message>>{
         const limit = pagination.limit ?? 20;
         const messages = [...this.messages.values()]
                 .filter(message => message.channelId === channelId)
                 .sort((a,b) => b.createdAt.getTime() - a.createdAt.getTime());
-        return messages.slice(0, limit);
+
+        let startIndex = 0;
+        if(pagination.cursor){
+            const cursorIndex = messages.findIndex(message => message.id === pagination.cursor);
+            if(cursorIndex !== -1){
+                startIndex = cursorIndex + 1;
+            }
+        }
+        const page = messages.slice(startIndex, startIndex + limit);
+        const nextCursor = page.length === limit ? page[page.length-1].id : null;
+        
+        return {
+            data: page,
+            nextCursor,
+        };
         
     };
 
