@@ -1,3 +1,4 @@
+import { NotFoundError } from "../errors/not-found.error";
 import { Message } from "../models/message.model";
 import { PaginatedResponse, PaginationParams } from "../types/pagination";
 
@@ -29,10 +30,11 @@ export class MessageRepository {
 
         let startIndex = 0;
         if(pagination.cursor){
-            const cursorIndex = messages.findIndex(message => message.id === pagination.cursor);
-            if(cursorIndex !== -1){
-                startIndex = cursorIndex + 1;
-            }
+            const cursorIndex = messages.findIndex(message => message.id === pagination.cursor);   // will need to change once we use DB (createdAT + id)
+            
+            if(cursorIndex !== -1) throw new NotFoundError("Invalid Pagination Error", "INVALID_CURSOR");
+            startIndex = cursorIndex + 1;
+            
         }
         const page = messages.slice(startIndex, startIndex + limit);
         const nextCursor = page.length === limit ? page[page.length-1].id : null;
@@ -57,3 +59,12 @@ export class MessageRepository {
     };
 
 }
+
+
+/*
+OFFSET
+"Give me items starting at position N"
+
+CURSOR
+"Give me items relative to this known position"
+*/
