@@ -2,7 +2,8 @@ import { randomUUID } from "crypto";
 import { WorkspaceMember } from "../models/workspace-member.model";
 import { WorkspaceMemberRepository } from "../repositories/workspace-member.repository";
 import { WorkspaceRepository } from "../repositories/workspace.repository";
-import { AddWorkspaceMemberRequest, UpdateWorkspaceMemberRequest } from "../types/member";
+import { AddWorkspaceMemberRequest, UpdateWorkspaceMemberRequest, WorkspaceMemberParams } from "../types/member";
+import { ForbiddenError } from "../errors/forbidden.error";
 
 export class WorkspaceMemberService {
 
@@ -72,6 +73,15 @@ export class WorkspaceMemberService {
         if(!member) throw new Error("Member not found");
 
         return await this.workspaceMemberRepository.deleteMember(memberId);
+    }
+
+    // Check membership of a user
+    async requireWorkspaceMember(workspaceId: string, userId: string): Promise<WorkspaceMember> {
+        
+        const membership = await this.workspaceMemberRepository.findByWorkspaceAndUser(workspaceId, userId);
+        if(!membership) throw new ForbiddenError("You are not a member of this workspace", "WORKSPACE_ACCESS_DENIED");
+
+        return membership;
     }
 
 }
