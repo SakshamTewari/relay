@@ -8,5 +8,9 @@ export const config = {
         jwtSecret: process.env.JWT_SECRET!,
         jwtAccessTokenExpiry: process.env.JWT_ACCESS_TOKEN_EXPIRY,
         jwtRefreshTokenExpiry: process.env.JWT_REFRESH_TOKEN_EXPIRY,
+    },
+
+    ai: {
+        openaiApiKey: process.env.OPENAI_API_KEY,
     }
 }
