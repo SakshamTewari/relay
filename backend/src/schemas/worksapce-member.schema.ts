@@ -12,7 +12,7 @@ export const AddWorkspaceMemberSchema = {
                 enum: ["owner", "admin", "member"],
             },
         },
-        additionalProperites: false,
+        additionalPropertes: false,
     },
 };
 
