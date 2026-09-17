@@ -12,6 +12,8 @@ import { messageRoutes } from "./routes/message.routes";
 import { workspaceMemberRoutes } from "./routes/workspace-member.route";
 import authenticatePlugin from "./plugins/authenticate.plugin";
 import { AppError } from "./errors/app.error";
+import { buildAssistant } from "./composition/assistant";
+import { assistantRoutes } from "./routes/assistant.routes";
 
 const app = Fastify();
 
@@ -20,6 +22,7 @@ const { workspaceController } = buildWorkspace();
 const { channelController } = buildChannel();
 const { messageController } = buildMessage();
 const { workspaceMemberController } = buildWorkspaceMember();
+const { assistantController } = buildAssistant();
 
 // JWT Plugin
 app.register(jwtPlugin);
@@ -35,14 +38,32 @@ app.register(channelRoutes, {prefix: "/api", channelController});
 app.register(messageRoutes, {prefix: "/api", messageController});
 // Workspace Member Routes
 app.register(workspaceMemberRoutes, {prefix: "/api", workspaceMemberController});
+// // assistant Routes
+app.register(assistantRoutes, {prefix: "/api", assistantController});
+
 
 // Global Error hamdler
 app.setErrorHandler((error, request, reply) => {
     if(error instanceof AppError){
         return reply.code(error.statusCode).send({message: error.message});
     };
+
+    if(typeof error === "object" && error !== null && "validation" in error){
+        return reply.code(400).send({message: "Validation failed", errors: error.validation});
+    };
+
     request.log.error(error);
     return reply.code(500).send({message: "Internal Server Error"});
 });
 
 export default app;
+
+
+/*
+| Layer         | Responsibility                    |
+| ------------- | --------------------------------- |
+| Repository    | Access data                       |
+| Service       | Apply business rules              |
+| Controller    | Translate HTTP ↔ application      |
+| Error handler | Translate errors → HTTP responses |
+*/
