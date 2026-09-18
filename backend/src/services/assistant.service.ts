@@ -6,13 +6,13 @@ export class AssistantService {
         private readonly llmService: LLMService
     ){}
 
-    async ask(content: string): Promise<string>{
+    async ask(workspaceId: string, content: string): Promise<string>{
         
         const response = await this.llmService.generate({
             messages: [
                 {
                     role: "system",
-                    content: "You are a helpful assistant for Relay.",
+                    content: `You are a helpful assistant for Relay. You are assisting the user inside workspace: ${workspaceId}`,
                 },
                 {
                     role: "user",
