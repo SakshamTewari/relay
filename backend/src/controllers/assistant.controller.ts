@@ -10,9 +10,10 @@ export class AssistantController {
     // Send Message
     async sendMessage(request: FastifyRequest<{Params: AssistantMessageParams; Body: AssistantMessageRequest}>, reply: FastifyReply){
         const { content } = request.body;
-        const response = await this.assistantService.ask(content);
+        const { workspaceId } = request.params;
+        const response = await this.assistantService.ask(workspaceId, content);
         return reply.send({
             content: response,
         });
     }
-} 
+}   
