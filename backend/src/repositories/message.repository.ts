@@ -32,7 +32,7 @@ export class MessageRepository {
         if(pagination.cursor){
             const cursorIndex = messages.findIndex(message => message.id === pagination.cursor);   // will need to change once we use DB (createdAT + id)
             
-            if(cursorIndex !== -1) throw new NotFoundError("Invalid Pagination Error", "INVALID_CURSOR");
+            if(cursorIndex === -1) throw new NotFoundError("Invalid Pagination Error", "INVALID_CURSOR");
             startIndex = cursorIndex + 1;
             
         }

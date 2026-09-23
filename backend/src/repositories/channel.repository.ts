@@ -16,7 +16,7 @@ export class ChannelRepository {
 
     // Find Channels by Workspace
     async findChannelsByWorkspace(workspaceId: string): Promise<Channel[]> {
-        return [...this.channels.values()].filter(channel => channel.id === workspaceId);
+        return [...this.channels.values()].filter(channel => channel.workspaceId === workspaceId);
     };
 
     // Find Channel by ID
