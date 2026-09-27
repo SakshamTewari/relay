@@ -5,3 +5,11 @@ export interface AssistantMessageParams {
 export interface AssistantMessageRequest {
     content: string;
 }
+
+export interface WorkspaceMessageContext {
+    channelName: string;
+    senderId: string;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date;
+};
