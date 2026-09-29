@@ -1,134 +1,155 @@
 # Relay
 
-> A production-grade real-time collaboration platform focused on scalable backend architecture, distributed systems, and cloud-native engineering.
+A real-time collaboration platform built for team communication and knowledge sharing, with workspaces, channels, messaging, and AI-powered workspace assistance.
 
-
-## Architecture
-
-Relay follows a layered architecture with clear separation of concerns:
-
-- Controllers
-- Services
-- Repositories
-- Models
-- Schemas
-- Composition Root
-- Shared Components
-
-This architecture promotes maintainability, testability, scalability, and clear ownership of responsibilities across the codebase.
-
----
 
 ## Tech Stack
 
 ### Backend
 
-- Fastify
-- TypeScript
-- Node.js
+* TypeScript
+* Node.js
+* Fastify
 
-### Data & Messaging
+### Planned Infrastructure
 
-- PostgreSQL
-- Redis
-- Kafka
+* PostgreSQL
+* Redis
+* Kafka
+* WebSockets
+* Docker
+* Kubernetes
+* Prometheus
+* Grafana
 
-### Real-Time Communication
+## Architecture
 
-- WebSockets
+Relay follows a layered backend architecture:
 
-### Infrastructure
+```text
+Routes
+   ↓
+Controllers
+   ↓
+Services
+   ↓
+Repositories
+   ↓
+Data Store
+```
 
-- Docker
-- Kubernetes
+Supporting components include:
 
-### Observability
+* Configuration
+* Schemas
+* Types
+* Plugins
+* Composition
 
-- Prometheus
-- Grafana
+Infrastructure-specific implementations are kept separate from application logic to reduce coupling and make individual components easier to replace or extend.
 
----
+## Current Features
 
-## Core Features
+### Authentication
 
-### Authentication & Security
-
-- User Registration
-- User Login
-- JWT Authentication
-- Refresh Tokens
-- Password Hashing
-- Role-Based Access Control (RBAC)
+* User registration
+* User login
+* Password hashing
+* JWT access tokens
+* JWT refresh tokens
+* Authentication middleware
 
 ### Collaboration
 
-- Organizations
-- Workspaces
-- Channels
-- Direct Messaging
-- Group Messaging
-- Presence & Typing Indicators
+* Workspaces
+* Workspace members
+* Channels
+* Messages
+* Workspace and channel relationships
+* Message pagination
 
-### Content Management
+### Workspace Assistant
 
-- File Uploads
-- Attachments
-- Search
-- Notifications
+Relay is being extended with an AI-powered workspace assistant.
 
-### Platform Infrastructure
+The current flow is:
 
-- Distributed Event Processing
-- Background Jobs
-- Caching
-- Rate Limiting
-- Audit Logging
-- Metrics & Monitoring
+```text
+User
+  ↓
+Assistant API
+  ↓
+AssistantService
+  ↓
+WorkspaceContextService
+  ↓
+Workspace / Channel / Message data
+  ↓
+LLMService
+  ↓
+OpenAI
+```
 
-### Future Roadmap
+The assistant can use workspace conversation data as context when generating responses.
 
-- Wallet-Based Authentication
-- Decentralized Identity
-- Tokenized Permissions
-- Blockchain-Integrated Collaboration
+The AI architecture is provider-independent:
 
----
+```text
+LLMService
+    ↑
+    |
+OpenAIService
+```
 
-## Engineering Goals
+The application depends on the `LLMService` abstraction rather than directly coupling the assistant to a specific LLM provider.
 
-- Build a production-grade backend from first principles.
-- Apply clean architecture and separation of concerns.
-- Design for scalability, reliability, and maintainability.
-- Learn distributed systems through practical implementation.
-- Implement observability and monitoring from the ground up.
-- Explore event-driven architecture using Kafka.
-- Integrate Web3 capabilities into a real-world platform.
+## Planned Features
 
----
+The project will be developed incrementally.
 
-## Current Status
+### Backend & Distributed Systems
 
-🚧 Active Development
+* PostgreSQL persistence
+* Redis caching
+* Kafka and event-driven architecture
+* Background jobs
+* Rate limiting
+* WebSockets and real-time events
+* Notifications
+* File and attachment handling
+* Search
+* Audit logging
+* Metrics and observability
 
-Relay is being developed incrementally with a strong focus on production-quality architecture, engineering best practices, and comprehensive documentation.
+### AI
 
----
+The workspace assistant will gradually evolve from a basic LLM integration into a more capable AI system.
 
-## Learning Focus Areas
+Planned areas include:
 
-This project serves as a practical exploration of:
+* LLM fundamentals
+* Embeddings
+* Vector search
+* Vector databases
+* Retrieval-Augmented Generation (RAG)
+* Conversation history
+* Tool calling
+* Agents
+* Streaming responses
+* AI-specific caching and rate limiting
+* Token and cost tracking
+* Prompt management
+* AI evaluation
+* Observability
 
-- Backend Engineering
-- Distributed Systems
-- Event-Driven Architecture
-- API Design
-- System Design
-- Cloud-Native Development
-- Observability
-- Infrastructure Engineering
-- Web3 Development
+### Web3
 
----
+After the core collaboration and distributed-system components are developed, Relay will explore Web3 functionality such as:
+
+* Wallet-based authentication
+* Decentralized identity
+* Blockchain-integrated permissions
+* Web3-native collaboration features
 
 ## Repository Structure
 
@@ -136,20 +157,16 @@ This project serves as a practical exploration of:
 src/
 ├── config/
 ├── controllers/
-├── services/
-├── repositories/
+├── infrastructure/
 ├── models/
-├── schemas/
+├── plugins/
+├── repositories/
 ├── routes/
-├── composition/
-├── shared/
-└── types/
+├── schemas/
+├── services/
+├── types/
+└── composition/
 ```
 
-> The structure may evolve as the platform grows and new infrastructure components are introduced.
 
----
 
-## Vision
-
-Relay aims to become a modern collaboration platform that combines secure communication, scalable distributed systems, and Web3-native collaboration into a single extensible ecosystem.
