@@ -1,3 +1,5 @@
+import { Workspace } from "../models/workspace.model";
+
 export interface AssistantMessageParams {
     workspaceId: string;
 };
@@ -13,3 +15,8 @@ export interface WorkspaceMessageContext {
     createdAt: Date;
     updatedAt: Date;
 };
+
+export interface WorkspaceContext {
+    workspace: Workspace;
+    messages: WorkspaceMessageContext[];
+}
