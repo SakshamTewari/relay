@@ -2,7 +2,7 @@ import { NotFoundError } from "../errors/not-found.error";
 import { ChannelRepository } from "../repositories/channel.repository";
 import { MessageRepository } from "../repositories/message.repository";
 import { WorkspaceRepository } from "../repositories/workspace.repository";
-import { WorkspaceMessageContext } from "../types/assistant.types";
+import { WorkspaceMessageContext, WorkspaceContext } from "../types/assistant.types";
 
 export class WorkspaceContextService {
     constructor(
@@ -11,7 +11,7 @@ export class WorkspaceContextService {
         private readonly messageRepository: MessageRepository,
     ){};
 
-    async getWorkspaceMessages(workspaceId: string): Promise<WorkspaceMessageContext[]>{
+    async getWorkspaceContext(workspaceId: string): Promise<WorkspaceContext>{
         const workspace = await this.workspaceRepository.findWorkspaceById(workspaceId);
 
         // Verify workspace exists
@@ -36,6 +36,9 @@ export class WorkspaceContextService {
                 }))
             );
         }
-        return workspaceMessages;
+        return {
+            workspace,
+            messages: workspaceMessages,
+        };
     }
 }
