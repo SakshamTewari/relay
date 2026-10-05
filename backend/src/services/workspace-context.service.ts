@@ -36,6 +36,11 @@ export class WorkspaceContextService {
                 }))
             );
         }
+
+        workspaceMessages.sort((a,b) => (
+            a.createdAt.getTime() - b.createdAt.getTime()
+        ));
+
         return {
             workspace,
             messages: workspaceMessages,
