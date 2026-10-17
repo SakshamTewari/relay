@@ -15,16 +15,20 @@ import { AppError } from "./errors/app.error";
 import { buildAssistant } from "./composition/assistant";
 import { assistantRoutes } from "./routes/assistant.routes";
 import { WorkspaceRepository } from "./repositories/workspace.repository";
+import { ChannelRepository } from "./repositories/channel.repository";
+import { MessageRepository } from "./repositories/message.repository";
 
 const app = Fastify();
 const workspaceRepository = new WorkspaceRepository();
+const channelRepository = new ChannelRepository();
+const messageRepository = new MessageRepository();
 
 const { authController } = buildAuth(app);
 const { workspaceController } = buildWorkspace(workspaceRepository);
 const { channelController } = buildChannel();
 const { messageController } = buildMessage();
 const { workspaceMemberController } = buildWorkspaceMember();
-const { assistantController } = buildAssistant(workspaceRepository);
+const { assistantController } = buildAssistant(workspaceRepository, channelRepository, messageRepository);
 
 // JWT Plugin
 app.register(jwtPlugin);
